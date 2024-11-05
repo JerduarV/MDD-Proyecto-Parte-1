@@ -1,0 +1,31 @@
+---
+title: "Proyecto parte 1"
+output: html_notebook
+---
+
+Importación de librerías a utilzar en el proyecto
+```{r}
+library('dbplyr')
+```
+
+
+Carga de datos de ingresos y egresos del gobierno central para los años 2020 a
+2023
+
+```{r}
+
+#Carga de datos de ingreso
+PI2023 <- read.csv("PI2023.csv");
+PI2022 <- read.csv("PI2022.csv");
+PI2021 <- readxl::read_xlsx("PI2021.xlsx");
+PI2020 <- read.csv("PI2020.csv");
+
+#carga de datos de egresos
+PE2023 <- read.csv("PE2023.csv");
+PE2022 <- read.csv("PE2022.csv");
+PE2021 <- readxl::read_xlsx("PE2021.xlsx");
+PE2020 <- read.csv("PE2020.csv");
+
+```
+
+
