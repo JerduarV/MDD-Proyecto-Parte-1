@@ -205,5 +205,29 @@ df_egresos <- rbind(PE2023_READY, PE2022_READY, PE2021_READY, PE2020_READY, PE20
 df_egresos
 
 ```
+Iniciando búsqueda de reglas
+
+```{r}
+library(arules)
+
+reglas <- apriori(df_ingresos, parameter = list(support=0.20, confidence=0.5,  ))
+
+#REGLA 1
+regla1 <- inspect(reglas[100:150][15]);
+#ASIGNACIONES DE INGRESO AL MINISTERIO DE FINANZAS PÚBLICAS
+
+#REGLA2
+regla2 <- inspect(reglas[100:200][23])
+regla2
+#Asignaciones de ingresos al MINFIN en clases de
+# - 11000 INGRESOS NO TRIBUTARIOS
+# - 12000 CONTRIBUCIONES A LA SEGURIDAD Y PREVISIÓN SOCIAL
+
+#REGLA 3
+regla3 <- inspect(reglas[100:200][34]);
+
+inspect(reglas[100:200])
+
+```
 
 
