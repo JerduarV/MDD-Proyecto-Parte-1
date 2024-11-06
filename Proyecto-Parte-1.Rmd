@@ -43,6 +43,7 @@ Cada set de datos por año tiene diferencias en cuento a la cantidad de columnas
 #Agrego a la PE2020 la columna EJERCICIO con valor 2020
 
 library(dplyr)
+library(tidyverse)
 
 #RENOMBRANDO COLUMNAS
 
@@ -112,6 +113,96 @@ df_ingresos
 
 #Renombrando columnas para df de egresos
 
+columnas_egreso = c('EJERCICIO', 'ENTIDAD', 'UNIDAD_EJECUTOR', 'PROGRAMA', 'SUBPROGRAMA',
+           'PROYECTO', 'ACTIVIDAD', 'OBRA', 'DEPTO', 'MUNICIPIO', 
+           'TIPO_PRESPUESTO', 'GRUPO_GASTO', 'SUBGRUPO_GASTO', 'RENGLON', 'COD_ECO',
+           'FUENTE', 'ORGANISMO', 'CORRELATIVO', 'ASIGNADO', 'VIGENTE', 
+           'DEVENGADO')
+
+PE2023_COL_RENAME = PE2023 %>% 
+  rename(c(EJERCICIO = ejercicio, ENTIDAD = codigoEntidad, UNIDAD_EJECUTOR = codigoUnidadEjecutora, PROGRAMA = codigoPrograma, SUBPROGRAMA = codigoSubProg,
+           PROYECTO = codigoProyecto, ACTIVIDAD = codigoActividad, OBRA = codigoObra, DEPTO = codigoDepto, MUNICIPIO = codigoMunicipio, 
+           TIPO_PRESPUESTO = codigoTipoPresupuesto, GRUPO_GASTO = codigoGrupoGasto, SUBGRUPO_GASTO = codigoSubGrpGasto, RENGLON = codigoRenglon, COD_ECO = codigoEconomico,
+           FUENTE = codigoFuente, ORGANISMO = codigoOrganismo, CORRELATIVO = correlativo, ASIGNADO = asignado, VIGENTE = vigente, 
+           DEVENGADO = devengado))
+
+
+PE2022_COL_RENAME = PE2022 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = ENTIDAD, UNIDAD_EJECUTOR = CODIGO.UE, PROGRAMA = PROGRAMA, SUBPROGRAMA = Código.Sub.Programa,
+           PROYECTO = Código.Proyecto, ACTIVIDAD = Código.Actividad, OBRA = Código.Obra, DEPTO = Código.Departamento, MUNICIPIO = Código.Municipio, 
+           TIPO_PRESPUESTO = TIPO.GASTO, GRUPO_GASTO = GRUPO.GASTO, SUBGRUPO_GASTO = SUBGRUPO.GASTO, RENGLON = RENGLÓN, COD_ECO = Código.Económico.Nivel.Operativo,
+           FUENTE = FUENTE, ORGANISMO = Código.Organismo, CORRELATIVO = Código.de.Correlativo, ASIGNADO = ASIGNADO, VIGENTE = VIGENTE, 
+           DEVENGADO = DEVENGADO))
+
+PE2021_COL_RENAME = PE2021 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = CodigoEntidad, UNIDAD_EJECUTOR = CodigoUnidadEjecutora, PROGRAMA = CodigoPrograma, SUBPROGRAMA = CodigoSubProg,
+           PROYECTO = CodigoProyecto, ACTIVIDAD = CodigoActividad, OBRA = CodigoObra, DEPTO = CodigoDepto, MUNICIPIO = CodigoMunicipio, 
+           TIPO_PRESPUESTO = CodigoTipoPresupuesto, GRUPO_GASTO = CodigoGrupoGasto, SUBGRUPO_GASTO = CodigoSubGrpGasto, RENGLON = CodigoRenglon, COD_ECO = CodigoEconomico,
+           FUENTE = CodigoFuente, ORGANISMO = CodigoOrganismo, CORRELATIVO = Correlativo, ASIGNADO = Asignado, VIGENTE = Vigente, 
+           DEVENGADO = Devengado))
+
+#Agregando columna Ejercicio a set de 2020
+PE2020_NEWCOLUM = PE2020 %>%
+  add_column(EJERCICIO = 2020);
+
+PE2019_NEWCOLUM = PE2019 %>%
+  add_column(EJERCICIO = 2019);
+
+PE2017_NEWCOLUM = PE2017 %>%
+  add_column(EJERCICIO = 2017);
+
+PE2018_NEWCOLUM = PE2018 %>%
+  add_column(EJERCICIO = 2018);
+
+PE2016_NEWCOLUM = PE2016 %>%
+  add_column(EJERCICIO = 2016);
+
+PE2020_COL_RENAME = PE2020_NEWCOLUM %>%
+  rename(c(EJERCICIO = EJERCICIO, ENTIDAD = ENTIDAD, UNIDAD_EJECUTOR = CODIGO.UE, PROGRAMA = PROGRAMA, SUBPROGRAMA = Código.Sub.Programa,
+           PROYECTO = Código.Proyecto, ACTIVIDAD = Código.Actividad, OBRA = Código.Obra, DEPTO = Código.Departamento, MUNICIPIO = Código.Municipio, 
+           TIPO_PRESPUESTO = TIPO.GASTO, GRUPO_GASTO = GRUPO.GASTO, SUBGRUPO_GASTO = SUBGRUPO.GASTO, RENGLON = RENGLÓN, COD_ECO = Código.Económico.Nivel.Operativo,
+           FUENTE = FUENTE, ORGANISMO = Código.Organismo, CORRELATIVO = Código.de.Correlativo, ASIGNADO = ASIGNADO, VIGENTE = VIGENTE, 
+           DEVENGADO = DEVENGADO))
+
+PE2019_COL_RENAME = PE2019_NEWCOLUM %>%
+  rename(c(EJERCICIO = EJERCICIO, ENTIDAD = ENTIDAD, UNIDAD_EJECUTOR = CODIGO.UE, PROGRAMA = PROGRAMA, SUBPROGRAMA = Código.Sub.Programa,
+           PROYECTO = Código.Proyecto, ACTIVIDAD = Código.Actividad, OBRA = Código.Obra, DEPTO = Código.Departamento, MUNICIPIO = Código.Municipio, 
+           TIPO_PRESPUESTO = TIPO.GASTO, GRUPO_GASTO = GRUPO.GASTO, SUBGRUPO_GASTO = SUBGRUPO.GASTO, RENGLON = RENGLÓN, COD_ECO = Código.Económico.Nivel.Operativo,
+           FUENTE = FUENTE, ORGANISMO = Código.Organismo, CORRELATIVO = Código.de.Correlativo, ASIGNADO = ASIGNADO, VIGENTE = VIGENTE, 
+           DEVENGADO = DEVENGADO))
+
+PE2018_COL_RENAME = PE2018_NEWCOLUM %>%
+  rename(c(EJERCICIO = EJERCICIO, ENTIDAD = ENTIDAD, UNIDAD_EJECUTOR = CODIGO.UE, PROGRAMA = PROGRAMA, SUBPROGRAMA = Código.Sub.Programa,
+           PROYECTO = Código.Proyecto, ACTIVIDAD = Código.Actividad, OBRA = Código.Obra, DEPTO = Código.Departamento, MUNICIPIO = Código.Municipio, 
+           TIPO_PRESPUESTO = TIPO.GASTO, GRUPO_GASTO = GRUPO.GASTO, SUBGRUPO_GASTO = SUBGRUPO.GASTO, RENGLON = RENGLÓN, COD_ECO = Código.Económico.Nivel.Operativo,
+           FUENTE = FUENTE, ORGANISMO = Código.Organismo, CORRELATIVO = Código.de.Correlativo, ASIGNADO = ASIGNADO, VIGENTE = VIGENTE, 
+           DEVENGADO = DEVENGADO))
+
+PE2017_COL_RENAME = PE2017_NEWCOLUM %>%
+  rename(c(EJERCICIO = EJERCICIO, ENTIDAD = ENTIDAD, UNIDAD_EJECUTOR = CODIGO.UE, PROGRAMA = PROGRAMA, SUBPROGRAMA = Código.Sub.Programa,
+           PROYECTO = Código.Proyecto, ACTIVIDAD = Código.Actividad, OBRA = Código.Obra, DEPTO = Código.Departamento, MUNICIPIO = Código.Municipio, 
+           TIPO_PRESPUESTO = TIPO.GASTO, GRUPO_GASTO = GRUPO.GASTO, SUBGRUPO_GASTO = SUBGRUPO.GASTO, RENGLON = RENGLÓN, COD_ECO = Código.Económico.Nivel.Operativo,
+           FUENTE = FUENTE, ORGANISMO = Código.Organismo, CORRELATIVO = Código.de.Correlativo, ASIGNADO = ASIGNADO, VIGENTE = VIGENTE, 
+           DEVENGADO = DEVENGADO))
+
+PE2016_COL_RENAME = PE2016_NEWCOLUM %>%
+  rename(c(EJERCICIO = EJERCICIO, ENTIDAD = ENTIDAD, UNIDAD_EJECUTOR = CODIGO.UE, PROGRAMA = PROGRAMA, SUBPROGRAMA = Código.Sub.Programa,
+           PROYECTO = Código.Proyecto, ACTIVIDAD = Código.Actividad, OBRA = Código.Obra, DEPTO = Código.Departamento, MUNICIPIO = Código.Municipio, 
+           TIPO_PRESPUESTO = TIPO.GASTO, GRUPO_GASTO = GRUPO.GASTO, SUBGRUPO_GASTO = SUBGRUPO.GASTO, RENGLON = RENGLÓN, COD_ECO = Código.Económico.Nivel.Operativo,
+           FUENTE = FUENTE, ORGANISMO = Código.Organismo, CORRELATIVO = Código.de.Correlativo, ASIGNADO = ASIGNADO, VIGENTE = VIGENTE, 
+           DEVENGADO = DEVENGADO))
+
+PE2023_READY <- PE2023_COL_RENAME[, names(PE2023_COL_RENAME) %in% columnas_egreso];
+PE2022_READY <- PE2022_COL_RENAME[, names(PE2022_COL_RENAME) %in% columnas_egreso];
+PE2021_READY <- PE2021_COL_RENAME[, names(PE2021_COL_RENAME) %in% columnas_egreso];
+PE2020_READY <- PE2020_COL_RENAME[, names(PE2020_COL_RENAME) %in% columnas_egreso];
+PE2019_READY <- PE2019_COL_RENAME[, names(PE2019_COL_RENAME) %in% columnas_egreso];
+PE2018_READY <- PE2018_COL_RENAME[, names(PE2018_COL_RENAME) %in% columnas_egreso];
+PE2017_READY <- PE2017_COL_RENAME[, names(PE2017_COL_RENAME) %in% columnas_egreso];
+PE2016_READY <- PE2016_COL_RENAME[, names(PE2016_COL_RENAME) %in% columnas_egreso];
+
+df_egresos <- rbind(PE2023_READY, PE2022_READY, PE2021_READY, PE2020_READY, PE2019_READY, PE2018_READY, PE2017_READY, PE2016_READY);
+df_egresos
 
 ```
 
