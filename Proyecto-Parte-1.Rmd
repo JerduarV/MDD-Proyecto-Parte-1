@@ -19,12 +19,99 @@ PI2023 <- read.csv("PI2023.csv");
 PI2022 <- read.csv("PI2022.csv");
 PI2021 <- readxl::read_xlsx("PI2021.xlsx");
 PI2020 <- read.csv("PI2020.csv");
+PI2019 <- read.csv("PI2019.csv");
+PI2018 <- read.csv("PI2018.csv");
+PI2017 <- readxl::read_xlsx("PI2017.xlsx");
+PI2016 <- read.csv("PI2016.csv");
 
 #carga de datos de egresos
 PE2023 <- read.csv("PE2023.csv");
 PE2022 <- read.csv("PE2022.csv");
 PE2021 <- readxl::read_xlsx("PE2021.xlsx");
 PE2020 <- read.csv("PE2020.csv");
+PE2019 <- read.csv("PE2019.csv");
+PE2018 <- read.csv("PE2018.csv");
+PE2017 <- read.csv("PE2017.csv", sep = ";");
+PE2016 <- read.csv("PE2016.csv");
+
+```
+
+Estandarizando fuentes de datos:
+Cada set de datos por año tiene diferencias en cuento a la cantidad de columnas. Se dejará las columnas comunes numéricas para luego unificarlas
+
+```{r}
+#Agrego a la PE2020 la columna EJERCICIO con valor 2020
+
+library(dplyr)
+
+#RENOMBRANDO COLUMNAS
+
+columnas_ingreso <- c('EJERCICIO', 'ENTIDAD', 'DEPTO', 'CLASE', 'SECCION', 'GRUPO', 'COD_ECONOMICO', 'RECURSO', 'ASIGNADO', 'VIGENTE', 'DEVENGADO');
+
+PI2023_COL_RENAME = PI2023 %>% 
+  rename(c(EJERCICIO = ejercicio, ENTIDAD = codigoEntidad, DEPTO = codigoDepto, CLASE = codigoClase, SECCION = codigoSeccion,
+           GRUPO = codigoGrupo, COD_ECONOMICO = codNivelEconomicoOperativo, RECURSO = codigoRecurso, ASIGNADO = asignado, VIGENTE = vigente,
+           DEVENGADO = devengado
+           ))
+
+PI2022_COL_RENAME = PI2022 %>% 
+   rename(c(EJERCICIO = Ejercicio, ENTIDAD = Código.Entidad, DEPTO = Código.Departamento, CLASE = Código.Clase, SECCION = Código.Sección,
+           GRUPO = Código.Grupo, COD_ECONOMICO = Código.Económico.Nivel.Operativo, RECURSO = Código.Recurso, ASIGNADO = Asignado, VIGENTE = Vigente,
+           DEVENGADO = Devengado
+           ))
+
+PI2021_COL_RENAME = PI2021 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = CodigoEntidad, DEPTO = CodigoDepto, CLASE = CodigoClase, SECCION = CodigoSeccion,
+           GRUPO = CodigoGrupo, COD_ECONOMICO = CodNivelEconomicoOperativo, RECURSO = CodigoRecurso, ASIGNADO = Asignado, VIGENTE = Vigente,
+           DEVENGADO = Devengado
+           ))
+
+PI2020_COL_RENAME = PI2020 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = Código.Entidad, DEPTO = Código.Departamento, CLASE = Código.Clase, SECCION = Código.Sección,
+           GRUPO = Código.Grupo, COD_ECONOMICO = Código.Económico.Nivel.Operativo, RECURSO = Código.Recurso, ASIGNADO = Asignado, VIGENTE = Vigente,
+           DEVENGADO = Devengado
+           ))
+
+PI2019_COL_RENAME = PI2019 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = Código.Entidad, DEPTO = Código.Departamento, CLASE = Código.Clase, SECCION = Código.Sección,
+           GRUPO = Código.Grupo, COD_ECONOMICO = Código.Económico.Nivel.Operativo, RECURSO = Código.Recurso, ASIGNADO = Asignado, VIGENTE = Vigente,
+           DEVENGADO = Devengado
+           ))
+
+PI2018_COL_RENAME = PI2018 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = Código.Entidad, DEPTO = Código.Departamento, CLASE = Código.Clase, SECCION = Código.Sección,
+           GRUPO = Código.Grupo, COD_ECONOMICO = Código.Económico.Nivel.Operativo, RECURSO = Código.Recurso, ASIGNADO = Asignado, VIGENTE = Vigente,
+           DEVENGADO = Devengado
+           ))
+
+PI2017_COL_RENAME = PI2017 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = `Código Entidad`, DEPTO = `Código Departamento`, CLASE = `Código Clase`, SECCION = `Código Sección`,
+           GRUPO = `Código Grupo`, COD_ECONOMICO = `Código Económico Nivel Operativo`, RECURSO = `Código Recurso`, ASIGNADO = Asignado, VIGENTE = Vigente,
+           DEVENGADO = Devengado
+           ))
+
+PI2016_COL_RENAME = PI2016 %>%
+  rename(c(EJERCICIO = Ejercicio, ENTIDAD = Código.Entidad, DEPTO = Código.Departamento, CLASE = Código.Clase, SECCION = Código.Sección,
+           GRUPO = Código.Grupo, COD_ECONOMICO = Código.Económico.Nivel.Operativo, RECURSO = Código.Recurso, ASIGNADO = Asignado, VIGENTE = Vigente,
+           DEVENGADO = Devengado
+           ))
+
+#Filtrando columnas con valor númerico para df de ingresos
+PI2023_READY <- PI2023_COL_RENAME[, names(PI2023_COL_RENAME) %in% columnas_ingreso];
+PI2022_READY <- PI2022_COL_RENAME[, names(PI2022_COL_RENAME) %in% columnas_ingreso];
+PI2021_READY <- PI2021_COL_RENAME[, names(PI2021_COL_RENAME) %in% columnas_ingreso];
+PI2020_READY <- PI2020_COL_RENAME[, names(PI2020_COL_RENAME) %in% columnas_ingreso];
+PI2019_READY <- PI2019_COL_RENAME[, names(PI2019_COL_RENAME) %in% columnas_ingreso];
+PI2018_READY <- PI2018_COL_RENAME[, names(PI2018_COL_RENAME) %in% columnas_ingreso];
+PI2017_READY <- PI2017_COL_RENAME[, names(PI2017_COL_RENAME) %in% columnas_ingreso];
+PI2016_READY <- PI2016_COL_RENAME[, names(PI2016_COL_RENAME) %in% columnas_ingreso];
+
+# Uniendo df de ingresos
+df_ingresos <- rbind(PI2023_READY, PI2022_READY, PI2021_READY, PI2020_READY, PI2019_READY, PI2018_READY, PI2017_READY, PI2016_READY);
+df_ingresos
+
+#Renombrando columnas para df de egresos
+
 
 ```
 
