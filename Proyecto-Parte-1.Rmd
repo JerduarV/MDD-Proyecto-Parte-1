@@ -205,29 +205,71 @@ df_egresos <- rbind(PE2023_READY, PE2022_READY, PE2021_READY, PE2020_READY, PE20
 df_egresos
 
 ```
-Iniciando búsqueda de reglas
+Iniciando búsqueda de reglas con algoritmo apriori
 
 ```{r}
 library(arules)
 
-reglas <- apriori(df_ingresos, parameter = list(support=0.20, confidence=0.5,  ))
+reglas <- apriori(df_ingresos, parameter = list(support=0.20, confidence=0.5  ))
+
+reglas_egresos <- apriori(df_egresos, parameter = list(support=0.2, confidence=0.5))
 
 #REGLA 1
 regla1 <- inspect(reglas[100:150][15]);
+#EJERCICIO=[2018,2021)}	=>	{ENTIDAD=[11130007,11130008)}
 #ASIGNACIONES DE INGRESO AL MINISTERIO DE FINANZAS PÚBLICAS
 
 #REGLA2
 regla2 <- inspect(reglas[100:200][23])
 regla2
+# [1]	{ENTIDAD=[11130007,11130008)}	=>	{CLASE=[1.1e+04,1.3e+04)}
 #Asignaciones de ingresos al MINFIN en clases de
 # - 11000 INGRESOS NO TRIBUTARIOS
 # - 12000 CONTRIBUCIONES A LA SEGURIDAD Y PREVISIÓN SOCIAL
 
 #REGLA 3
 regla3 <- inspect(reglas[100:200][34]);
+#[1]	{DEPTO=[100,1.1e+03)}	=>	{ASIGNADO=[0,500)}
 
-inspect(reglas[100:200])
+#REGLA 4
+inspect(reglas_egresos[0:200][200])
+#[1]	{UNIDAD_EJECUTOR=[277,330]}	=>	{ENTIDAD=[11130008,11130009)}	0.3223829	0.9669487	
+
+#UNIDAD_EJECUTOR GOBERNACIÓN DE HUEHUE, BAJA Y ALTA VERAPZA, QUICHÉ, PETEN, IZABAL, ZACAPA, CHIQUIMULA, JALAPA, JUTIAPA
+#ENTIDAD MINISTERIO DE EDUCACIÓN
+
+
+
+#PROYECTO
+
+PE2018_COL_RENAME %>% 
+  distinct(ENTIDAD, .keep_all=TRUE) %>%
+  arrange(desc(ENTIDAD))
+
 
 ```
+Busqueda de reglas con algoritmo fpgrowth
+```{r}
+reglas_fpgr <- fim4r(df_egresos, method = "fpgrowth", target="rules", supp = .2, conf = .5)
 
+reglas_fpgr <- as(reglas, "data.frame")
+
+#REGLA 5
+reglas_fpgr[130,]
+# 130	{ASIGNADO=[0,500)} => {ENTIDAD=[11130007,11130008)}	0.4157983	0.6244321	
+# ENTIDAD MINISTERIO DE EDUCACIÓN
+
+#REGLA 6
+reglas_fpgr[133,]
+# 133	{DEPTO=[100,1.1e+03)} => {ASIGNADO=[0,500)}	0.3290756	0.5672074	
+# DEPARTAMENTOS DE LA MESETA CENTRAL
+
+#REGLA 7
+reglas_fpgr[50,]
+# 50	{DEPTO=[1.1e+03,3.9e+03]} => {ENTIDAD=[11130007,11130008)}	0.252437	0.751	
+
+PE2018_COL_RENAME %>% 
+  distinct(DEPTO, .keep_all=TRUE) %>%
+  arrange(desc(DEPTO))
+```
 
