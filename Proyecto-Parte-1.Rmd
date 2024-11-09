@@ -242,9 +242,9 @@ inspect(reglas_egresos[0:200][200])
 
 #PROYECTO
 
-PE2018_COL_RENAME %>% 
-  distinct(ENTIDAD, .keep_all=TRUE) %>%
-  arrange(desc(ENTIDAD))
+PE2016_COL_RENAME %>% 
+  distinct(ACTIVIDAD, .keep_all=TRUE) %>%
+  arrange(desc(ACTIVIDAD))
 
 
 ```
@@ -252,24 +252,55 @@ Busqueda de reglas con algoritmo fpgrowth
 ```{r}
 reglas_fpgr <- fim4r(df_egresos, method = "fpgrowth", target="rules", supp = .2, conf = .5)
 
-reglas_fpgr <- as(reglas, "data.frame")
+reglas_fpgr_dr <- as(reglas_fpgr, "data.frame")
 
 #REGLA 5
-reglas_fpgr[130,]
+reglas_fpgr_dr[130,]
 # 130	{ASIGNADO=[0,500)} => {ENTIDAD=[11130007,11130008)}	0.4157983	0.6244321	
 # ENTIDAD MINISTERIO DE EDUCACIÓN
 
 #REGLA 6
-reglas_fpgr[133,]
+reglas_fpgr_dr[133,]
 # 133	{DEPTO=[100,1.1e+03)} => {ASIGNADO=[0,500)}	0.3290756	0.5672074	
 # DEPARTAMENTOS DE LA MESETA CENTRAL
 
 #REGLA 7
-reglas_fpgr[50,]
+reglas_fpgr_dr[50,]
 # 50	{DEPTO=[1.1e+03,3.9e+03]} => {ENTIDAD=[11130007,11130008)}	0.252437	0.751	
 
-PE2018_COL_RENAME %>% 
-  distinct(DEPTO, .keep_all=TRUE) %>%
-  arrange(desc(DEPTO))
+#Se variará la confianza para ampliar la búsqueda
+reglas_fpgr2 <- fim4r(df_egresos, method = "fpgrowth", target="rules", supp = .2, conf = .4)
+
+reglas_fpgr2_df2 <- as(reglas_fpgr2, "data.frame")
+
+#REGLA 8
+reglas_fpgr2_df2[73664,];
+# 138688 {VIGENTE=[3.31e+04,6e+09]} => {ACTIVIDAD=[1,3)} 0.2219280 0.6657758
+#ACTIVIDAD 
+# 1	APORTES A ENTIDADES REGIONALES E INTERNACIONALES
+# 2	SERVICIOS DE DIRECCIÓN Y COORDINACIÓN VICEPRESIDENCIAL
+
+inspect(reglas_fpgr2[200:300])
+
+PE2022_COL_RENAME %>% 
+  distinct(FUENTE, .keep_all=TRUE) %>%
+  arrange(desc(FUENTE))
+
+```
+
+Aplicando kmeans para gráficar Clusters
+
+```{r}
+
+data_km <- df_egresos[, names(df_egresos) %in% c('ASIGNADO', 'DEVENGADO')]
+
+cluster <- kmeans(data_km, centers=3)
+
+ggplot(data_km, aes(x = ASIGNADO, y = DEVENGADO, color = as.factor(cluster$cluster)))+
+  geom_point()+
+  geom_point(data = as.data.frame(cluster$centers), aes(x=ASIGNADO, y = DEVENGADO), color = "black", size=4, shape=17)+
+  labs(title = "ASIGNADO vs DEVENGADO")+
+  theme_minimal()
+
 ```
 
