@@ -3,11 +3,6 @@ title: "Proyecto parte 1"
 output: html_notebook
 ---
 
-Importación de librerías a utilzar en el proyecto
-```{r}
-library('dbplyr')
-```
-
 
 Carga de datos de ingresos y egresos del gobierno central para los años 2020 a
 2023
@@ -40,7 +35,6 @@ Estandarizando fuentes de datos:
 Cada set de datos por año tiene diferencias en cuento a la cantidad de columnas. Se dejará las columnas comunes numéricas para luego unificarlas
 
 ```{r}
-#Agrego a la PE2020 la columna EJERCICIO con valor 2020
 
 library(dplyr)
 library(tidyverse)
@@ -201,6 +195,7 @@ PE2018_READY <- PE2018_COL_RENAME[, names(PE2018_COL_RENAME) %in% columnas_egres
 PE2017_READY <- PE2017_COL_RENAME[, names(PE2017_COL_RENAME) %in% columnas_egreso];
 PE2016_READY <- PE2016_COL_RENAME[, names(PE2016_COL_RENAME) %in% columnas_egreso];
 
+#Uniendo df de egresos
 df_egresos <- rbind(PE2023_READY, PE2022_READY, PE2021_READY, PE2020_READY, PE2019_READY, PE2018_READY, PE2017_READY, PE2016_READY);
 df_egresos
 
